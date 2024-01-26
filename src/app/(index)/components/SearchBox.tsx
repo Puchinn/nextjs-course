@@ -1,26 +1,16 @@
-"use client";
-
-import {useRouter, useSearchParams} from "next/navigation";
+import {redirect} from "next/navigation";
 
 export default function SearchBox() {
-  const router = useRouter();
-  const searchParams = useSearchParams();
+  const searchAction = async (formData: FormData) => {
+    "use server";
+    const query = formData.get("query");
 
-  function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
-    // Prevenimos que la página se refresque al enviar el formulario
-    event.preventDefault();
-
-    // Obtenemos el valor del input
-    const query = event.currentTarget.query.value;
-
-    // Redireccionamos al index con una query
-    router.push(`/?q=${query}`);
-  }
+    redirect(`/?q=${query}`);
+  };
 
   return (
-    <form className="mb-4 inline-flex gap-2" onSubmit={handleSubmit}>
-      {/* Inicializamos el input para que contenga el valor actual de la query */}
-      <input className="px-2" defaultValue={searchParams.get("q") || ""} name="query" />
+    <form action={searchAction} className="mb-4 inline-flex gap-2">
+      <input className="px-2" defaultValue="" name="query" />
       <button className="bg-white/20 p-2" type="submit">
         Search
       </button>
