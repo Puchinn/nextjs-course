@@ -45,6 +45,15 @@ const api = {
       throw new Error("no restaurant finded");
     }
   },
+  search: async (query: string): Promise<Restaurant[]> => {
+    // Obtenemos los restaurantes
+    const results = await api.list();
+
+    // Los retornamos
+    return results.filter((restaurant) =>
+      restaurant.name.toLowerCase().includes(query.toLowerCase()),
+    );
+  },
 };
 
 export default api;
