@@ -49,6 +49,8 @@ const api = {
     // Obtenemos los restaurantes
     const results = await api.list();
 
+    if (!query) return results;
+
     // Los retornamos
     return results.filter((restaurant) =>
       restaurant.name.toLowerCase().includes(query.toLowerCase()),
